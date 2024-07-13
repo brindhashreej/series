@@ -1,0 +1,40 @@
+import java.util.*;
+class SeriesGenerator implements Runnable {
+    private int size;
+
+    SeriesGenerator(int size) {
+        this.size = size;
+    }
+    public void run() {
+        int start = 0;
+        int step = 2;
+        int current = start;
+        for (int i = 0; i < size; i++) {
+            System.out.print(current + " ");
+            current += step;
+            step += 2+i+2;
+            if (i < size - 1) {
+                try {
+                    Thread.sleep(1100); // Delay execution for 1100ms (1.1 seconds)
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Scanner s=new Scanner(System.in);
+        int size = s.nextInt();
+        if (args.length > 0) {
+            try {
+                size = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid input. Using default size: 10");
+            }
+        }
+        Thread thread = new Thread(new SeriesGenerator(size));
+        thread.start();
+    }
+}
